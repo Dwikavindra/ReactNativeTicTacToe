@@ -43,8 +43,8 @@ export default function App() {
     if (isPositionFilled == false) {
       newFilledPosition[row][column] = player;
       setFilledPosition(newFilledPosition);
-      isWinner(filledPosition, player);
       changePlayer();
+      isWinner(filledPosition, player);
     } else {
       onToggleSnackBar();
     }
@@ -85,6 +85,7 @@ export default function App() {
         filledPosition[1][1] == player &&
         filledPosition[2][0] == player)
     ) {
+      setPlayer(player);
       onToggleSnackBarWin();
       setPausedTiles(true);
     } else {
