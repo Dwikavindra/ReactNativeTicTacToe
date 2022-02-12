@@ -12,7 +12,7 @@ export default function App() {
   const onToggleSnackBar = () => setVisible(!visible);
 
   const onDismissSnackBar = () => setVisible(false);
-  const [visibleSnackBarWin, setVisibleSnackBarWin] = React.useState(false);
+  const [visibleSnackBarWin, setVisibleSnackBarWin] = useState(false);
 
   const onToggleSnackBarWin = () => setVisibleSnackBarWin(true);
 
