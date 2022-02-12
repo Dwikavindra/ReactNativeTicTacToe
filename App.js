@@ -5,8 +5,10 @@ import { Snackbar, Button } from "react-native-paper";
 
 export default function App() {
   const [visible, setVisible] = useState(false);
+  const [player, setPlayer] = useState("X");
 
   const [pausedTiles, setPausedTiles] = useState(false);
+
   const onToggleSnackBar = () => setVisible(!visible);
 
   const onDismissSnackBar = () => setVisible(false);
@@ -15,11 +17,23 @@ export default function App() {
   const onToggleSnackBarWin = () => setVisibleSnackBarWin(true);
 
   const onDismissSnackBarWin = () => setVisibleSnackBarWin(false);
+
   const [filledPosition, setFilledPosition] = useState([
     ["", "", ""],
     ["", "", ""],
     ["", "", ""],
   ]);
+  const resetBoard = () => {
+    setFilledPosition([
+      ["", "", ""],
+      ["", "", ""],
+      ["", "", ""],
+    ]);
+    setPausedTiles(false);
+  };
+  const changePlayer = () => {
+    player == "X" ? setPlayer("O") : setPlayer("X");
+  };
   function check_everything(filledPosition, player, row, column) {
     mark(filledPosition, player, row, column);
   }
@@ -30,6 +44,7 @@ export default function App() {
       newFilledPosition[row][column] = player;
       setFilledPosition(newFilledPosition);
       isWinner(filledPosition, player);
+      changePlayer();
     } else {
       onToggleSnackBar();
     }
@@ -79,13 +94,21 @@ export default function App() {
 
   return (
     <View style={styles.container}>
+      <Text>Current player {player}</Text>
+      <Button
+        onPress={() => {
+          changePlayer();
+        }}
+      >
+        Change player
+      </Button>
       <View style={styles.row}>
         {/*First Row*/}
         <View style={styles.containerTicTacToe}>
           <Pressable
             disabled={pausedTiles}
             onPress={() => {
-              check_everything([...filledPosition], "x", 0, 0);
+              check_everything([...filledPosition], player, 0, 0);
             }}
           >
             <View style={{ height: 80, width: 80, justifyContent: "center" }}>
@@ -99,7 +122,7 @@ export default function App() {
           <Pressable
             disabled={pausedTiles}
             onPress={() => {
-              check_everything([...filledPosition], "x", 0, 1);
+              check_everything([...filledPosition], player, 0, 1);
             }}
           >
             <View style={{ height: 80, width: 80, justifyContent: "center" }}>
@@ -114,7 +137,7 @@ export default function App() {
           <Pressable
             disabled={pausedTiles}
             onPress={() => {
-              check_everything([...filledPosition], "x", 0, 2);
+              check_everything([...filledPosition], player, 0, 2);
             }}
           >
             <View style={{ height: 80, width: 80, justifyContent: "center" }}>
@@ -131,7 +154,7 @@ export default function App() {
           <Pressable
             disabled={pausedTiles}
             onPress={() => {
-              check_everything([...filledPosition], "x", 1, 0);
+              check_everything([...filledPosition], player, 1, 0);
             }}
           >
             <View style={{ height: 80, width: 80, justifyContent: "center" }}>
@@ -145,7 +168,7 @@ export default function App() {
           <Pressable
             disabled={pausedTiles}
             onPress={() => {
-              check_everything([...filledPosition], "x", 1, 1);
+              check_everything([...filledPosition], player, 1, 1);
             }}
           >
             <View style={{ height: 80, width: 80, justifyContent: "center" }}>
@@ -159,7 +182,7 @@ export default function App() {
           <Pressable
             disabled={pausedTiles}
             onPress={() => {
-              check_everything([...filledPosition], "x", 1, 2);
+              check_everything([...filledPosition], player, 1, 2);
             }}
           >
             <View style={{ height: 80, width: 80, justifyContent: "center" }}>
@@ -176,7 +199,7 @@ export default function App() {
           <Pressable
             disabled={pausedTiles}
             onPress={() => {
-              check_everything([...filledPosition], "x", 2, 0);
+              check_everything([...filledPosition], player, 2, 0);
             }}
           >
             <View style={{ height: 80, width: 80, justifyContent: "center" }}>
@@ -190,7 +213,7 @@ export default function App() {
           <Pressable
             disabled={pausedTiles}
             onPress={() => {
-              check_everything([...filledPosition], "x", 2, 1);
+              check_everything([...filledPosition], player, 2, 1);
             }}
           >
             <View style={{ height: 80, width: 80, justifyContent: "center" }}>
@@ -204,7 +227,7 @@ export default function App() {
           <Pressable
             disabled={pausedTiles}
             onPress={() => {
-              check_everything([...filledPosition], "x", 2, 2);
+              check_everything([...filledPosition], player, 2, 2);
             }}
           >
             <View style={{ height: 80, width: 80, justifyContent: "center" }}>
@@ -215,6 +238,7 @@ export default function App() {
           </Pressable>
         </View>
       </View>
+      <Button onPress={resetBoard}>Reset</Button>
       {/* <Text>Change the number below</Text>
       <Text>{contentText}</Text>
       <Button
@@ -236,7 +260,7 @@ export default function App() {
         onDismiss={onDismissSnackBarWin}
         duration={1000}
       >
-        Congratulation X Won The Game!
+        Congratulation {player} Won The Game!
       </Snackbar>
     </View>
   );
